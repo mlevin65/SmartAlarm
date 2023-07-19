@@ -1,20 +1,34 @@
 <!DOCTYPE html>
-<html> 
-
-<h1> Smart Alarm Clock App </h1>
-
-<p> </p>
-
-<script> var date = new Date()
-hours = date.getHours()%12;
-minutes = date.getMinutes();
-if (date.getHours() > 12) {
-    alert(hours + ":" + minutes + "pm");
-}
-else {
-    alert(hours + ":" + minutes + "am")
-}
-</script>
+<html lang = "en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Digital Clock</title> 
+    <link rel="stylesheet" href="style.css">
 
 
+</head>
+<body>
+
+    <h2>Digital Clock</h2>
+    <div class ="clock">
+        <div>
+            <span id = "hour">00</span>
+            <span class = "text">Hours</span>
+        </div>
+        <div>
+            <span id = "minutes">00</span>
+            <span class = "text">Minutes</span>
+        </div>
+        <div>
+            <span id = "seconds">00</span>
+            <span class = "text">Seconds</span>
+        </div>
+        <div>
+            <span id = "am_pm">AM</span> 
+        </div>
+    </div>
+
+</body>
 </html>
