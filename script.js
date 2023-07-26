@@ -39,15 +39,22 @@ function updateClock() {
     const timeDiffInSeconds = Math.floor((alarmTime - now) / 1000);
 
     // Calculate the percentage of time passed (closer to 0 as alarm time approaches)
-    const timePercentage = Math.min(1, Math.max(0, timeDiffInSeconds / (60 * 5))); // Change the '5' to control how fast the transition occurs
+    let timePercentage = 0;
+    if (timeDiffInSeconds > 0) {
+      timePercentage = Math.min(1, timeDiffInSeconds / (60 * 5)); // Change the '5' to control how fast the transition occurs
+    }
 
     // Calculate the RGB values based on the percentage (linear interpolation from black to white)
-    const r = Math.round(255 * timePercentage);
-    const g = Math.round(255 * timePercentage);
-    const b = Math.round(255 * timePercentage);
+    const r = Math.round(255 - timePercentage * 255);
+    const g = Math.round(255 - timePercentage * 255);
+    const b = Math.round(255 - timePercentage * 255);
 
     // Set the background color using the calculated RGB values
     document.body.style.backgroundColor = `rgb(${r}, ${g}, ${b})`;
+
+    // Calculate the clock text color based on the background color
+    const clockTextColor = (r + g + b) / 3 > 128 ? "black" : "white";
+    clockDisplay.style.color = clockTextColor;
 
     // Check if the alarm time is reached
     if (timeDiffInSeconds <= 0) {
@@ -55,6 +62,8 @@ function updateClock() {
     }
   }
 }
+
+
 
 
 function getWeatherData() {
