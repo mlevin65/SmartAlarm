@@ -1,3 +1,5 @@
+let isAlarmSet = false; // Flag to track if the alarm is set
+
 function setAlarm() {
   const alarmTimeInput = document.getElementById("alarm-time");
   const alarmTime = alarmTimeInput.value;
@@ -7,22 +9,8 @@ function setAlarm() {
     return;
   }
 
-  const [alarmHour, alarmMinute] = alarmTime.split(":");
-  const now = new Date();
-  const alarm = new Date(now);
-  alarm.setHours(alarmHour);
-  alarm.setMinutes(alarmMinute);
-  alarm.setSeconds(0);
-
-  const currentTime = now.getTime();
-  const alarmTimeInMillis = alarm.getTime();
-
-  if (currentTime > alarmTimeInMillis) {
-    alarm.setDate(alarm.getDate() + 1);
-  }
-
-  const timeUntilAlarm = alarmTimeInMillis - currentTime;
-  setTimeout(triggerAlarm, timeUntilAlarm);
+  localStorage.setItem("alarmTime", alarmTime);
+  isAlarmSet = true; // Set the flag to true when the alarm is set
 }
 
 function triggerAlarm() {
@@ -30,13 +18,8 @@ function triggerAlarm() {
   const audio = new Audio("rain_alarm.mp3");
   audio.play();
 
-  document.body.style.backgroundColor = "#FFFFFF"; // White background
-  document.body.style.color = "#000000"; // Black text
-
-  // You can add additional actions here, such as showing a message, changing the background color, etc.
-  // For now, let's show an alert.
-  // alert("ALARM! Wake up!");
-
+  // Add a class to body for smooth background color transition
+  document.body.classList.add("alarm-triggered");
 }
 
 function updateClock() {
@@ -48,27 +31,31 @@ function updateClock() {
   const clockDisplay = document.querySelector(".clock");
   clockDisplay.textContent = `${hours}:${minutes}:${seconds}`;
 
-  // Calculate the time difference in milliseconds
-  const alarmTimeString = localStorage.getItem("alarmTime");
-  const alarmTime = new Date(`${now.toDateString()} ${alarmTimeString}`);
-  const timeDiff = alarmTime - now;
+  // Check if the alarm time is set
+  if (isAlarmSet) {
+    // Calculate the time difference in seconds
+    const alarmTimeString = localStorage.getItem("alarmTime");
+    const alarmTime = new Date(`${now.toDateString()} ${alarmTimeString}`);
+    const timeDiffInSeconds = Math.floor((alarmTime - now) / 1000);
 
-  // Calculate the percentage of time passed (closer to 0 as alarm time approaches)
-  const timePercentage = Math.max(0, timeDiff / (alarmTime - new Date(alarmTime.toDateString())));
+    // Calculate the percentage of time passed (closer to 0 as alarm time approaches)
+    const timePercentage = Math.min(1, Math.max(0, timeDiffInSeconds / (60 * 5))); // Change the '5' to control how fast the transition occurs
 
-  // Calculate the RGB values based on the percentage (linear interpolation from black to white)
-  const r = Math.round(255 * timePercentage);
-  const g = Math.round(255 * timePercentage);
-  const b = Math.round(255 * timePercentage);
+    // Calculate the RGB values based on the percentage (linear interpolation from black to white)
+    const r = Math.round(255 * timePercentage);
+    const g = Math.round(255 * timePercentage);
+    const b = Math.round(255 * timePercentage);
 
-  // Set the background color using the calculated RGB values
-  document.body.style.backgroundColor = `rgb(${r}, ${g}, ${b})`;
+    // Set the background color using the calculated RGB values
+    document.body.style.backgroundColor = `rgb(${r}, ${g}, ${b})`;
 
-  // Check if the alarm time is reached
-  if (timeDiff <= 0) {
-    triggerAlarm();
+    // Check if the alarm time is reached
+    if (timeDiffInSeconds <= 0) {
+      triggerAlarm();
+    }
   }
 }
+
 
 function getWeatherData() {
   const apiKey = 'caa1c258b1eef023f2eb40d779313d4b';
@@ -96,3 +83,6 @@ setInterval(updateClock, 1000);
 
 // Fetch weather data when the page loads
 window.addEventListener('load', getWeatherData);
+
+// Initialize the background color to black
+document.body.style.backgroundColor = "black";
