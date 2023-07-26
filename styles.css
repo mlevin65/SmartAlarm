@@ -66,4 +66,20 @@ body {
     left: 0;
     width: 100%;
   }
+  .weather-container {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    display: flex;
+    align-items: center;
+  }
   
+  .weather-icon img {
+    width: 40px;
+    height: 40px;
+    margin-right: 5px;
+  }
+  
+  .weather-details {
+    font-size: 1rem;
+  }
