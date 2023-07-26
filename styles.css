@@ -3,16 +3,13 @@ body {
   line-height: 1.6;
   margin: 0;
   padding: 0;
-  background-color: black;
-  color: white;
-  text-align: center;
-  transition: background-color 1s linear;
-  /* Add a smooth transition effect for background color */
+  background-color: #000;
+  color: #fff;
 }
 
 header {
-  background-color: black;
-  color: white;
+  background-color: #000;
+  color: #fff;
   text-align: center;
   padding: 1rem 0;
 }
@@ -34,7 +31,7 @@ main {
 }
 
 .clock {
-  font-size: 3rem;
+  font-size: 7rem; /* Increase the font size for the clock */
 }
 
 .alarm-form {
@@ -88,8 +85,7 @@ footer {
   font-size: 1rem;
 }
 
+/* Add a style for the alarm-triggered class */
 .alarm-triggered {
-  transition: background-color 5s linear;
-  background-color: white !important;
-  color: black;
+  transition: background-color 1s ease;
 }
