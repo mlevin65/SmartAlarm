@@ -20,11 +20,9 @@
       <div class="clock clock-display">
         <span id="hours">00</span>:<span id="minutes">00</span>:<span id="seconds">00</span>
       </div>
-    </div>    
+    </div>
     <div class="alarm-form">
-      <h2>Set Alarm</h2>
-      <input type="time" id="alarm-time" required>
-      <button onclick="setAlarm()">Set Alarm</button>
+      <button onclick="goToSetAlarmPage()">Set Alarm</button>
     </div>
   </main>
 
@@ -33,5 +31,10 @@
   </footer>
 
   <script src="script.js"></script>
+  <script>
+    function goToSetAlarmPage() {
+      window.location.href = "settings.html";
+    }
+  </script>
 </body>
 </html>
