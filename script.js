@@ -1,6 +1,7 @@
 let isAlarmSet = false; // Flag to track if the alarm is set
 let isAlarmRinging = false; // Flag to track if the alarm is currently ringing
 let audio;
+let isMilitaryTime = true; // Flag to track the current time format
 
 // Function to remove the alarm time and update the clock when the alarm is canceled
 function cancelAlarm() {
@@ -73,13 +74,13 @@ function setAlarm() {
 
 // Function to update the clock and check if the alarm time is reached
 function updateClock() {
-  const now = new Date();
-  const hours = String(now.getHours()).padStart(2, "0");
-  const minutes = String(now.getMinutes()).padStart(2, "0");
-  const seconds = String(now.getSeconds()).padStart(2, "0");
-
-  const clockDisplay = document.querySelector(".clock");
-  clockDisplay.textContent = `${hours}:${minutes}:${seconds}`;
+    const now = new Date();
+    const hours = now.getHours();
+    const minutes = now.getMinutes();
+    const seconds = now.getSeconds();
+  
+    const clockDisplay = document.querySelector(".clock");
+    clockDisplay.textContent = formatTime(hours, minutes, seconds);
 
   // Check if the alarm time is set
   if (isAlarmSet) {
@@ -131,6 +132,24 @@ function updateWeatherData() {
     })
     .catch(error => console.error('Error fetching weather data:', error));
 }
+
+function toggleTimeFormat() {
+  isMilitaryTime = !isMilitaryTime; // Toggle the time format flag
+  updateClock(); // Update the clock with the new time format
+}
+
+function formatTime(hours, minutes, seconds) {
+  if (isMilitaryTime) {
+    // Return the time in military format (24-hour format)
+    return `${String(hours).padStart(2, "0")}:${String(minutes).padStart(2, "0")}:${String(seconds).padStart(2, "0")}`;
+  } else {
+    // Return the time in standard format (12-hour format with AM/PM)
+    const period = hours >= 12 ? "PM" : "AM";
+    const formattedHours = (hours % 12) || 12; // Convert to 12-hour format
+    return `${formattedHours}:${String(minutes).padStart(2, "0")}:${String(seconds).padStart(2, "0")} ${period}`;
+  }
+}
+
 // Update the clock every second
 setInterval(updateClock, 1000);
 setInterval(updateWeatherData, 60000); // 60000 milliseconds = 1 minute
