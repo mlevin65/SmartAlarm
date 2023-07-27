@@ -111,7 +111,7 @@ function updateClock() {
   }
 }
 
-function getWeatherData() {
+function updateWeatherData() {
   const apiKey = 'caa1c258b1eef023f2eb40d779313d4b';
   const city = 'Rockville, US';
   const weatherURL = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}&units=imperial`;
@@ -131,12 +131,12 @@ function getWeatherData() {
     })
     .catch(error => console.error('Error fetching weather data:', error));
 }
-
 // Update the clock every second
 setInterval(updateClock, 1000);
+setInterval(updateWeatherData, 60000); // 60000 milliseconds = 1 minute
 
 // Fetch weather data when the page loads
-window.addEventListener('load', getWeatherData);
+window.addEventListener('load', updateWeatherData);
 
 // Initialize the background color to black
 document.body.style.backgroundColor = "black";
