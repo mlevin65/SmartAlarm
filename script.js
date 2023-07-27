@@ -150,6 +150,43 @@ function formatTime(hours, minutes, seconds) {
   }
 }
 
+document.getElementById("scrollButton").addEventListener("click", function() {
+    // Get the position of the target section
+    const targetSection = document.getElementById("targetSection");
+    const targetPosition = targetSection.getBoundingClientRect().top;
+    
+    // Get the current scroll position
+    const startPosition = window.pageYOffset || document.documentElement.scrollTop;
+
+    // Calculate the distance to scroll
+    const distance = 600;
+
+    // Scroll smoothly to the target section
+    // You can adjust the duration (1000ms = 1 second)
+    const duration = 1000;
+    const startTime = performance.now();
+    
+    function scrollAnimation(currentTime) {
+        const elapsedTime = currentTime - startTime;
+        const scroll = easeInOut(elapsedTime, startPosition, distance, duration);
+        window.scrollTo(0, scroll);
+        if (elapsedTime < duration) {
+            requestAnimationFrame(scrollAnimation);
+        }
+    }
+
+    function easeInOut(t, b, c, d) {
+        t /= d / 2;
+        if (t < 1) return c / 2 * t * t + b;
+        t--;
+        return -c / 2 * (t * (t - 2) - 1) + b;
+    }
+
+    requestAnimationFrame(scrollAnimation);
+});
+
+
+
 // Update the clock every second
 setInterval(updateClock, 1000);
 setInterval(updateWeatherData, 60000); // 60000 milliseconds = 1 minute
