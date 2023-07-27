@@ -1,3 +1,33 @@
+@import url('https: //fonts.googleapis.com/css2?family=Poppins&display=swap');
+
+* {
+
+margin: 0;
+
+padding: 0;
+
+box-sizing: border-box; font-family: "Poppins", sans-serif;
+
+}
+
+section {
+
+height: 1000vh;
+
+display: flex;
+
+justify-content: center;
+
+align-items: center;
+}
+
+
+
+
+
+
+
+
 body {
   font-family: "Montserrat", Arial, sans-serif; 
   line-height: 1.6;
