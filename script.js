@@ -1,4 +1,6 @@
 let isAlarmSet = false; // Flag to track if the alarm is set
+let isAlarmRinging = false; // Flag to track if the alarm is currently ringing
+let audio;
 
 // Function to remove the alarm time and update the clock when the alarm is canceled
 function cancelAlarm() {
@@ -10,19 +12,47 @@ function cancelAlarm() {
 
 // Function to trigger the alarm sound and stop it after a certain period
 function triggerAlarm() {
-  const audio = new Audio("rain_alarm.mp3");
+  audio = new Audio("rain_alarm.mp3"); // Assign the audio object to the global variable
   audio.play();
+
+  isAlarmRinging = true; // Set the flag to true when the alarm is ringing
 
   // Add a class to body for smooth background color transition
   document.body.classList.add("alarm-triggered");
+
+  // Show the "Turn Off Alarm" button
+  document.querySelector(".alarm-off").style.display = "block";
 
   // Stop the alarm sound after 30 seconds
   setTimeout(() => {
     audio.pause();
     audio.currentTime = 0;
+    isAlarmRinging = false; // Set the flag to false when the alarm stops
     document.body.classList.remove("alarm-triggered");
+    document.querySelector(".alarm-off").style.display = "none"; // Hide the "Turn Off Alarm" button
     cancelAlarm();
+
+    // Reset the clock text color to white
+    const clockDisplay = document.querySelector(".clock");
+    clockDisplay.style.color = "white";
   }, 30000); // Adjust this value to change the alarm duration
+}
+
+
+// Function to turn off the alarm manually
+function turnOffAlarm() {
+  if (audio && isAlarmRinging) { // Check if the audio object exists and the alarm is currently ringing
+    audio.pause();
+    audio.currentTime = 0;
+    isAlarmRinging = false; // Set the flag to false when the alarm stops
+    document.body.classList.remove("alarm-triggered");
+    document.querySelector(".alarm-off").style.display = "none"; // Hide the "Turn Off Alarm" button
+    cancelAlarm();
+
+    // Reset the clock text color to white
+    const clockDisplay = document.querySelector(".clock");
+    clockDisplay.style.color = "white";
+  }
 }
 
 // Function to set the alarm time
@@ -70,7 +100,7 @@ function updateClock() {
     document.body.style.backgroundColor = `rgb(${r}, ${g}, ${b})`;
 
     // Calculate the color of the clock text based on timePercentage (closer to 0 as alarm time approaches)
-    const textColorPercentage = 1 - timePercentage;
+    const textColorPercentage = isAlarmSet ? 1 - timePercentage : 1; // Set to 1 (white) when alarm is not triggered
     const textColor = `rgb(${Math.round(255 * textColorPercentage)}, ${Math.round(255 * textColorPercentage)}, ${Math.round(255 * textColorPercentage)})`;
     clockDisplay.style.color = textColor;
 
@@ -80,8 +110,6 @@ function updateClock() {
     }
   }
 }
-
-
 
 function getWeatherData() {
   const apiKey = 'caa1c258b1eef023f2eb40d779313d4b';
