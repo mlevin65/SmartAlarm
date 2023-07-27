@@ -1,5 +1,31 @@
 let isAlarmSet = false; // Flag to track if the alarm is set
 
+// Function to remove the alarm time and update the clock when the alarm is canceled
+function cancelAlarm() {
+  localStorage.removeItem("alarmTime");
+  isAlarmSet = false;
+  document.body.style.backgroundColor = "black";
+  updateClock();
+}
+
+// Function to trigger the alarm sound and stop it after a certain period
+function triggerAlarm() {
+  const audio = new Audio("rain_alarm.mp3");
+  audio.play();
+
+  // Add a class to body for smooth background color transition
+  document.body.classList.add("alarm-triggered");
+
+  // Stop the alarm sound after 30 seconds
+  setTimeout(() => {
+    audio.pause();
+    audio.currentTime = 0;
+    document.body.classList.remove("alarm-triggered");
+    cancelAlarm();
+  }, 30000); // Adjust this value to change the alarm duration
+}
+
+// Function to set the alarm time
 function setAlarm() {
   const alarmTimeInput = document.getElementById("alarm-time");
   const alarmTime = alarmTimeInput.value;
@@ -11,17 +37,11 @@ function setAlarm() {
 
   localStorage.setItem("alarmTime", alarmTime);
   isAlarmSet = true; // Set the flag to true when the alarm is set
+  updateClock(); // Update the clock immediately after setting the alarm
+  alert("Alarm set successfully!");
 }
 
-function triggerAlarm() {
-  // Play the alarm sound
-  const audio = new Audio("rain_alarm.mp3");
-  audio.play();
-
-  // Add a class to body for smooth background color transition
-  document.body.classList.add("alarm-triggered");
-}
-
+// Function to update the clock and check if the alarm time is reached
 function updateClock() {
   const now = new Date();
   const hours = String(now.getHours()).padStart(2, "0");
@@ -38,23 +58,21 @@ function updateClock() {
     const alarmTime = new Date(`${now.toDateString()} ${alarmTimeString}`);
     const timeDiffInSeconds = Math.floor((alarmTime - now) / 1000);
 
-    // Calculate the percentage of time passed (closer to 0 as alarm time approaches)
-    let timePercentage = 0;
-    if (timeDiffInSeconds > 0) {
-      timePercentage = Math.min(1, timeDiffInSeconds / (60 * 5)); // Change the '5' to control how fast the transition occurs
-    }
+    // Calculate the percentage of time passed (closer to 1 as alarm time approaches)
+    const timePercentage = Math.min(1, Math.max(0, 1 - timeDiffInSeconds / (60 * 5))); // Change the '5' to control how fast the transition occurs
 
     // Calculate the RGB values based on the percentage (linear interpolation from black to white)
-    const r = Math.round(255 - timePercentage * 255);
-    const g = Math.round(255 - timePercentage * 255);
-    const b = Math.round(255 - timePercentage * 255);
+    const r = Math.round(255 * timePercentage);
+    const g = Math.round(255 * timePercentage);
+    const b = Math.round(255 * timePercentage);
 
     // Set the background color using the calculated RGB values
     document.body.style.backgroundColor = `rgb(${r}, ${g}, ${b})`;
 
-    // Calculate the clock text color based on the background color
-    const clockTextColor = (r + g + b) / 3 > 128 ? "black" : "white";
-    clockDisplay.style.color = clockTextColor;
+    // Calculate the color of the clock text based on timePercentage (closer to 0 as alarm time approaches)
+    const textColorPercentage = 1 - timePercentage;
+    const textColor = `rgb(${Math.round(255 * textColorPercentage)}, ${Math.round(255 * textColorPercentage)}, ${Math.round(255 * textColorPercentage)})`;
+    clockDisplay.style.color = textColor;
 
     // Check if the alarm time is reached
     if (timeDiffInSeconds <= 0) {
@@ -62,7 +80,6 @@ function updateClock() {
     }
   }
 }
-
 
 
 
