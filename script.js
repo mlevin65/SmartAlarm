@@ -11,6 +11,21 @@ function cancelAlarm() {
   updateClock();
 }
 
+function invokeButton() {
+document.getElementById("invokeButton").addEventListener("click", () => {
+    fetch("/home/auseraccount/SunFounder_SensorKit_for_RPi2/Python/04_relay.py")
+        .then(response => response.text())
+        .then(data => {
+            // Process the response from the script
+            console.log(data);
+        })
+        .catch(error => {
+            console.error("Error invoking the script:", error);
+        });
+});
+}
+
+
 // Function to trigger the alarm sound and stop it after a certain period
 function triggerAlarm() {
   audio = new Audio("rain_alarm.mp3"); // Assign the audio object to the global variable
