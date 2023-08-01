@@ -12,27 +12,27 @@ function cancelAlarm() {
 }
 
 document.getElementById("LightON").addEventListener("click", () => {
- fetch("/cgi-bin/ON.py")
-        .then(response => response.text())
-        .then(data => {
-            // Process the response from the script
-            console.log(data);
-        })
-        .catch(error => {
-            console.error("Error invoking the script:", error);
-        });
+  fetch("/cgi-bin/ON.py")
+    .then(response => response.text())
+    .then(data => {
+      // Process the response from the script
+      console.log(data);
+    })
+    .catch(error => {
+      console.error("Error invoking the script:", error);
+    });
 });
 
-document.getElementById("LightOFF").addEventListener("click", () => {  
- fetch("/cgi-bin/OFF.py")
-        .then(response => response.text())
-        .then(data => {
-            // Process the response from the script
-            console.log(data);
-        })
-        .catch(error => {
-            console.error("Error invoking the script:", error);
-        }); 
+document.getElementById("LightOFF").addEventListener("click", () => {
+  fetch("/cgi-bin/OFF.py")
+    .then(response => response.text())
+    .then(data => {
+      // Process the response from the script
+      console.log(data);
+    })
+    .catch(error => {
+      console.error("Error invoking the script:", error);
+    });
 });
 
 
@@ -63,6 +63,15 @@ function triggerAlarm() {
     const clockDisplay = document.querySelector(".clock");
     clockDisplay.style.color = "white";
   }, 30000); // Adjust this value to change the alarm duration
+  fetch("/cgi-bin/ON.py")
+    .then(response => response.text())
+    .then(data => {
+      // Process the response from the script
+      console.log(data);
+    })
+    .catch(error => {
+      console.error("Error invoking the script:", error);
+    });
 }
 
 
@@ -100,13 +109,13 @@ function setAlarm() {
 
 // Function to update the clock and check if the alarm time is reached
 function updateClock() {
-    const now = new Date();
-    const hours = now.getHours();
-    const minutes = now.getMinutes();
-    const seconds = now.getSeconds();
-  
-    const clockDisplay = document.querySelector(".clock");
-    clockDisplay.textContent = formatTime(hours, minutes, seconds);
+  const now = new Date();
+  const hours = now.getHours();
+  const minutes = now.getMinutes();
+  const seconds = now.getSeconds();
+
+  const clockDisplay = document.querySelector(".clock");
+  clockDisplay.textContent = formatTime(hours, minutes, seconds);
 
   // Check if the alarm time is set
   if (isAlarmSet) {
