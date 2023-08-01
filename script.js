@@ -11,9 +11,8 @@ function cancelAlarm() {
   updateClock();
 }
 
-function invokeButton() {
-document.getElementById("invokeButton").addEventListener("click", () => {
-    fetch("/home/auseraccount/SunFounder_SensorKit_for_RPi2/Python/04_relay.py")
+document.getElementById("LightON").addEventListener("click", () => {
+ fetch("/cgi-bin/ON.py")
         .then(response => response.text())
         .then(data => {
             // Process the response from the script
@@ -23,7 +22,19 @@ document.getElementById("invokeButton").addEventListener("click", () => {
             console.error("Error invoking the script:", error);
         });
 });
-}
+
+document.getElementById("LightOFF").addEventListener("click", () => {  
+ fetch("/cgi-bin/OFF.py")
+        .then(response => response.text())
+        .then(data => {
+            // Process the response from the script
+            console.log(data);
+        })
+        .catch(error => {
+            console.error("Error invoking the script:", error);
+        }); 
+});
+
 
 
 // Function to trigger the alarm sound and stop it after a certain period
