@@ -12,29 +12,40 @@ function cancelAlarm() {
 }
 
 document.getElementById("LightON").addEventListener("click", () => {
- fetch("/cgi-bin/ON.py")
-        .then(response => response.text())
-        .then(data => {
-            // Process the response from the script
-            console.log(data);
-        })
-        .catch(error => {
-            console.error("Error invoking the script:", error);
-        });
+  fetch("/cgi-bin/ON.py")
+    .then(response => response.text())
+    .then(data => {
+      // Process the response from the script
+      console.log(data);
+    })
+    .catch(error => {
+      console.error("Error invoking the script:", error);
+    });
 });
 
-document.getElementById("LightOFF").addEventListener("click", () => {  
- fetch("/cgi-bin/OFF.py")
-        .then(response => response.text())
-        .then(data => {
-            // Process the response from the script
-            console.log(data);
-        })
-        .catch(error => {
-            console.error("Error invoking the script:", error);
-        }); 
+document.getElementById("LightOFF").addEventListener("click", () => {
+  fetch("/cgi-bin/OFF.py")
+    .then(response => response.text())
+    .then(data => {
+      // Process the response from the script
+      console.log(data);
+    })
+    .catch(error => {
+      console.error("Error invoking the script:", error);
+    });
 });
 
+document.getElementById("HornOFF").addEventListener("click", () => {
+  fetch("/cgi-bin/OFFHORN.py")
+    .then(response => response.text())
+    .then(data => {
+      // Process the response from the script
+      console.log(data);
+    })
+    .catch(error => {
+      console.error("Error invoking the script:", error);
+    });
+});
 
 
 // Function to trigger the alarm sound and stop it after a certain period
@@ -62,17 +73,28 @@ function triggerAlarm() {
     // Reset the clock text color to white
     const clockDisplay = document.querySelector(".clock");
     clockDisplay.style.color = "white";
+
+    // Code for what happens after 10 minutes of the alarm ringing
+    setTimeout(() => {
+      // Add your code here that you want to happen after 10 minutes of the alarm ringing
+      // For example, you can turn off the alarm automatically or do any other task
+      console.log("10 minutes have passed since the alarm started ringing.");
+      // You can call any other function or perform any action here after 10 minutes.
+
+      // Perform the fetch request to execute the ONHORN.py script
+      fetch("/cgi-bin/ONHORN.py")
+        .then(response => response.text())
+        .then(data => {
+          // Process the response from the script
+          console.log(data);
+        })
+        .catch(error => {
+          console.error("Error invoking the script:", error);
+        });
+    }, 60000); // 10 minutes = 60,000 milliseconds
   }, 30000); // Adjust this value to change the alarm duration
-fetch("/cgi-bin/ON.py")
-    .then(response => response.text())
-    .then(data => {
-      // Process the response from the script
-      console.log(data);
-    })
-    .catch(error => {
-      console.error("Error invoking the script:", error);
-    });
 }
+
 
 
 // Function to turn off the alarm manually
@@ -91,8 +113,7 @@ function turnOffAlarm() {
   }
 }
 
-// Function to set the alarm time
-function setAlarm() {
+function setAlarm(isAnnoyingAlarm = false) {
   const alarmTimeInput = document.getElementById("alarm-time");
   const alarmTime = alarmTimeInput.value;
 
@@ -103,19 +124,25 @@ function setAlarm() {
 
   localStorage.setItem("alarmTime", alarmTime);
   isAlarmSet = true; // Set the flag to true when the alarm is set
-  updateClock(); // Update the clock immediately after setting the alarm
-  alert("Alarm set successfully!");
+
+  if (isAnnoyingAlarm) {
+    triggerAnnoyingAlarm(); // Set the annoying alarm
+  } else {
+    updateClock(); // Update the clock immediately after setting the regular alarm
+    alert("Alarm set successfully!");
+  }
 }
+
 
 // Function to update the clock and check if the alarm time is reached
 function updateClock() {
-    const now = new Date();
-    const hours = now.getHours();
-    const minutes = now.getMinutes();
-    const seconds = now.getSeconds();
-  
-    const clockDisplay = document.querySelector(".clock");
-    clockDisplay.textContent = formatTime(hours, minutes, seconds);
+  const now = new Date();
+  const hours = now.getHours();
+  const minutes = now.getMinutes();
+  const seconds = now.getSeconds();
+
+  const clockDisplay = document.querySelector(".clock");
+  clockDisplay.textContent = formatTime(hours, minutes, seconds);
 
   // Check if the alarm time is set
   if (isAlarmSet) {
