@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,66 +7,64 @@
   <link rel="stylesheet" href="styles.css">
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
 </head>
-
 <body>
+<body>
+  <header>
+    <h1>RiseWise</h1>
+    <div class="weather-container">
+      <div class="weather-icon" id="weather-icon"></div>
+      <div class="weather-details" id="weather-details"></div>
+    </div>
+  </header>
 
-  <body>
-    <header>
-      <h1>RiseWise</h1>
-      <div class="weather-container">
-        <div class="weather-icon" id="weather-icon"></div>
-        <div class="weather-details" id="weather-details"></div>
+  <main>
+    <div class="clock-container">
+      <div class="clock clock-display">
+        <span id="hours">00</span>:<span id="minutes">00</span>:<span id="seconds">00</span>
       </div>
-    </header>
+</div>
+<div>
+      <button id="LightON">LightON</button>
+<button id="LightOFF">LightOFF</button>
 
-    <main>
-      <div class="clock-container">
-        <div class="clock clock-display">
-          <span id="hours">00</span>:<span id="minutes">00</span>:<span id="seconds">00</span>
-        </div>
-      </div>
-      <div>
-        <button id="LightON">LightON</button>
-        <button id="LightOFF">LightOFF</button>
-        </div>
-      <!-- Alarm Off Button - Initially hidden -->
-      <div class="alarm-off" style="display: none;">
-        <button onclick="turnOffAlarm()">Turn Off Alarm</button>
-      </div>
+    </div>
+    <!-- Alarm Off Button - Initially hidden -->
+    <div class="alarm-off" style="display: none;">
+      <button onclick="turnOffAlarm()">Turn Off Alarm</button>
+    </div>
 
-      <!-- Button to auto-scroll down to the Set Alarm button -->
-      <div class="scroll-button">
-        <button onclick="scrollToSetAlarm()">Scroll to Set Alarm</button>
-      </div>
-      <!-- Spacer to create some empty space between the clock and set alarm button -->
-      <div class="spacer"></div>
+    <!-- Button to auto-scroll down to the Set Alarm button -->
+    <div class="scroll-button">
+      <button onclick="scrollToSetAlarm()">Scroll to Set Alarm</button>
+    </div>
+    <!-- Spacer to create some empty space between the clock and set alarm button -->
+    <div class="spacer"></div>
 
-      <div class="alarm-form">
-        <h2>Set Alarm</h2>
-        <input type="time" id="alarm-time" required>
-        <button onclick="setAlarm()">Set Alarm</button>
-      </div>
-      <div class="time-format">
-        <label class="switch">
-          <input type="checkbox" id="timeFormatToggle" onchange="toggleTimeFormat()">
-          <span class="slider round"></span>
-        </label>
-        <span>Standard Time</span>
-      </div>
-      <div class="scroll-top-button">
-        <button onclick="scrollToTop()">Scroll to Top</button>
-      </div>
-      <!-- Spacer to create some empty space between the clock and set alarm button -->
-      <div class="spacer"></div>
-
-    </main>
+    <div class="alarm-form">
+      <h2>Set Alarm</h2>
+      <input type="time" id="alarm-time" required>
+      <button onclick="setAlarm()">Set Alarm</button>
+    </div>
+    <div class="time-format">
+      <label class="switch">
+        <input type="checkbox" id="timeFormatToggle" onchange="toggleTimeFormat()">
+        <span class="slider round"></span>
+      </label>
+      <span>Standard Time</span>
+    </div>
+    <div class="scroll-top-button">
+      <button onclick="scrollToTop()">Scroll to Top</button>
+    </div>
+    <!-- Spacer to create some empty space between the clock and set alarm button -->
+    <div class="spacer"></div>
+    
+  </main>
 
 
-    <footer>
-      <p> </p>
-    </footer>
+  <footer>
+    <p> </p>
+  </footer>
 
-    <script src="script.js"></script>
-  </body>
-
+  <script src="script.js"></script>
+</body>
 </html>

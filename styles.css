@@ -153,34 +153,3 @@ footer {
 .spacer {
   height: 500px; /* Adjust the height as needed */
 }
-/* Adjust the styles for the top-right container */
-.top-right-container {
-  display: flex;
-  flex-direction: row;
-  justify-content: flex-end;
-  align-items: center;
-}
-
-/* Add margin and padding as needed for spacing */
-.weather-container {
-  margin: 10px;
-  padding: 10px;
-}
-/* Style for the alarm status element */
-.alarm-status {
-  margin-top: 1rem;
-  font-size: 1rem;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.alarm-status p {
-  margin: 0;
-  color: rgb(255, 255, 255);
-}
-
-.alarm-status span {
-  font-weight: bold;
-  margin-left: 0.5rem;
-}
